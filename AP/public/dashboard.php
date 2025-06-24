@@ -3,6 +3,13 @@ if (!isset($_SESSION['user'])) {
     header('Location: index.php');
     exit;
 }
+$configPath = dirname(__DIR__) . '/config/DBConfig.php';
+if (!file_exists($configPath)) {
+    $configPath = __DIR__ . '/../config/DBConfig.php';
+}
+require_once $configPath;
+$pdo = DBConfig::getConnection();
+$apps = $pdo->query("SELECT * FROM apps ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -28,23 +35,14 @@ if (!isset($_SESSION['user'])) {
 
     <!-- App Grid -->
     <main class="apps-grid">
-      <!-- App Card Disabled -->
-      <div class="app-card disabled">
-        <div class="icon">🗂️</div>
-        <div class="label">Documenti</div>
-      </div>
-
-      <!-- App Card Disabled -->
-      <div class="app-card disabled">
-        <div class="icon">📅</div>
-        <div class="label">Calendario</div>
-      </div>
-
-      <!-- App Card Attiva -->
-      <a href="pagamenti.php" class="app-card">
-        <div class="icon">💳</div>
-        <div class="label">Pagamenti</div>
-      </a>
+      <?php foreach ($apps as $app): ?>
+        <?php $class = $app['enabled'] ? 'app-card' : 'app-card disabled'; ?>
+        <?php $href = $app['enabled'] ? "app/{$app['slug']}.php" : '#'; ?>
+        <a href="<?php echo $href; ?>" class="<?php echo $class; ?>">
+          <div class="icon">📦</div>
+          <div class="label"><?php echo htmlspecialchars($app['name']); ?></div>
+        </a>
+      <?php endforeach; ?>
     </main>
   </div>
 </body>
