@@ -4,7 +4,11 @@ if (!isset($_SESSION['user'])) {
     header('Location: index.php');
     exit;
 }
-require_once __DIR__ . '/../config/DBConfig.php';
+$configPath = dirname(__DIR__) . '/config/DBConfig.php';
+if (!file_exists($configPath)) {
+    $configPath = __DIR__ . '/../config/DBConfig.php';
+}
+require_once $configPath;
 $pdo = DBConfig::getConnection();
 
 // Handle toggling
@@ -21,9 +25,10 @@ if (isset($_POST['toggle_id'], $_POST['enabled'])) {
 if (isset($_POST['new_app']) && trim($_POST['new_app'])) {
     $name = trim($_POST['new_app']);
     $slug = preg_replace('/[^a-z0-9]+/','_',strtolower($name));
+    $enabled = isset($_POST['new_enabled']) ? 1 : 0;
     // Insert into DB
-    $ins = $pdo->prepare("INSERT INTO apps (name, slug, enabled) VALUES (:n, :s, 0)");
-    $ins->execute(['n' => $name, 's' => $slug]);
+    $ins = $pdo->prepare("INSERT INTO apps (name, slug, enabled) VALUES (:n, :s, :e)");
+    $ins->execute(['n' => $name, 's' => $slug, 'e' => $enabled]);
     // Optionally create placeholder file
     $filePath = __DIR__ . "/app/{$slug}.php";
     if (!file_exists($filePath)) {
@@ -56,7 +61,7 @@ $apps = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <main class="apps-manage-grid">
       <?php foreach ($apps as $app): ?>
-        <div class="app-card">
+        <div class="app-card <?php echo $app['enabled'] ? '' : 'disabled'; ?>">
           <div class="icon">🔧</div>
           <div class="label"><?php echo htmlspecialchars($app['name']); ?></div>
           <div class="controls">
@@ -80,6 +85,9 @@ $apps = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <input type="text" name="new_app" required placeholder=" ">
             <label>Nuova App</label>
           </div>
+          <label class="checkbox-inline">
+            <input type="checkbox" name="new_enabled" value="1"> Abilita
+          </label>
           <button type="submit" class="btn-neon small">Crea</button>
         </form>
       </div>
