@@ -142,6 +142,7 @@ body::before {
   opacity: 0.4;
   filter: grayscale(100%);
   cursor: not-allowed;
+  pointer-events: none;
 }
 .apps-manage-grid {
   display: grid;
@@ -172,6 +173,14 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+.checkbox-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  color: var(--text-light);
 }
 .upload-section, .search-section {
   margin-top: 2rem;
