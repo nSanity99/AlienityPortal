@@ -141,7 +141,18 @@ body::before {
 .app-card.disabled {
   opacity: 0.4;
   filter: grayscale(100%);
+}
+
+/* Disabled apps on the dashboard shouldn't be clickable */
+.apps-grid .app-card.disabled {
   cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* On the manage apps page we still want buttons clickable */
+.apps-manage-grid .app-card.disabled {
+  cursor: default;
+  pointer-events: auto;
 }
 .apps-manage-grid {
   display: grid;
@@ -172,6 +183,14 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+.checkbox-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  color: var(--text-light);
 }
 .upload-section, .search-section {
   margin-top: 2rem;
