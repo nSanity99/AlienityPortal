@@ -25,9 +25,43 @@ if (isset($_POST['new_app']) && trim($_POST['new_app'])) {
     $ins = $pdo->prepare("INSERT INTO apps (name, slug, enabled) VALUES (:n, :s, 0)");
     $ins->execute(['n' => $name, 's' => $slug]);
     // Optionally create placeholder file
-    $filePath = __DIR__ . "/app/{$slug}.php";
+    $appDir = __DIR__ . '/app';
+    if (!is_dir($appDir)) {
+        mkdir($appDir, 0777, true);
+    }
+    $filePath = $appDir . "/{$slug}.php";
     if (!file_exists($filePath)) {
-        file_put_contents($filePath, "<?php\n// Pagina per {$name}\necho '<h1>{$name}</h1>';\n");
+        $placeholder = <<<PHP
+<?php
+session_start();
+if (!isset(\$_SESSION['user'])) {
+    header('Location: ../index.php');
+    exit;
+}
+\$appName = '{$name}';
+?>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title><?php echo \$appName; ?> — Alienity Portal</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="neon-card">
+      <img src="../assets/img/PortalLogo.png" alt="Logo" class="logo">
+      <h1 class="neon-text"><?php echo \$appName; ?></h1>
+      <div class="spinner"></div>
+      <p class="neon-text">Work in progress...</p>
+      <a href="../dashboard.php" class="btn-neon">Torna alla Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>
+PHP;
+        file_put_contents($filePath, $placeholder);
     }
     header('Location: manage_apps.php');
     exit;
