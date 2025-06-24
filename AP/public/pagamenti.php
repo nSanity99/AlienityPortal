@@ -4,7 +4,11 @@ if (!isset($_SESSION['user'])) {
     header('Location: ../index.php');
     exit;
 }
-require_once __DIR__ . '/../config/DBConfig.php';
+$configPath = dirname(__DIR__) . '/config/DBConfig.php';
+if (!file_exists($configPath)) {
+    $configPath = __DIR__ . '/../config/DBConfig.php';
+}
+require_once $configPath;
 $pdo = DBConfig::getConnection();
 
 // SQL for invoices table creation if needed...
@@ -13,7 +17,7 @@ $errors = [];
 $success = false;
 
 // Ensure uploads dir
-$uploadDir = __DIR__ . '/uploads';
+$uploadDir = __DIR__ . '/uploads/invoices';
 if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
 // Handle file upload
@@ -219,7 +223,7 @@ if ($term !== '') {
             <div class="invoice-card neon-card">
               <div class="label"><?php echo htmlspecialchars($inv['title']); ?></div>
               <div class="created"><?php echo $inv['created_at']; ?></div>
-              <a href="uploads/<?php echo urlencode($inv['filename']); ?>" download class="btn-neon small">Scarica</a>
+              <a href="uploads/invoices/<?php echo urlencode($inv['filename']); ?>" download class="btn-neon small">Scarica</a>
             </div>
           <?php endforeach; ?>
         </div>

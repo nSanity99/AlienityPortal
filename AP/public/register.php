@@ -1,5 +1,9 @@
 <?php session_start();
-require_once __DIR__ . '/../config/DBConfig.php';
+$configPath = dirname(__DIR__) . '/config/DBConfig.php';
+if (!file_exists($configPath)) {
+    $configPath = __DIR__ . '/../config/DBConfig.php';
+}
+require_once $configPath;
 
 // Se già loggato, reindirizza
 if (isset($_SESSION['user'])) {
