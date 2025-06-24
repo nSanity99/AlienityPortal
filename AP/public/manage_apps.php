@@ -4,7 +4,11 @@ if (!isset($_SESSION['user'])) {
     header('Location: index.php');
     exit;
 }
-require_once __DIR__ . '/../config/DBConfig.php';
+$configPath = dirname(__DIR__) . '/config/DBConfig.php';
+if (!file_exists($configPath)) {
+    $configPath = __DIR__ . '/../config/DBConfig.php';
+}
+require_once $configPath;
 $pdo = DBConfig::getConnection();
 
 // Handle toggling
