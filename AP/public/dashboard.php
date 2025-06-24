@@ -1,8 +1,14 @@
-<?php session_start();
+<?php
+session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: index.php');
     exit;
 }
+
+require_once __DIR__ . '/../config/DBConfig.php';
+$pdo = DBConfig::getConnection();
+$stmt = $pdo->query("SELECT * FROM apps WHERE enabled = 1 ORDER BY id");
+$customApps = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +51,13 @@ if (!isset($_SESSION['user'])) {
         <div class="icon">💳</div>
         <div class="label">Pagamenti</div>
       </a>
+
+      <?php foreach ($customApps as $app): ?>
+        <a href="app/<?php echo $app['slug']; ?>.php" class="app-card">
+          <div class="icon">🛠️</div>
+          <div class="label"><?php echo htmlspecialchars($app['name']); ?></div>
+        </a>
+      <?php endforeach; ?>
     </main>
   </div>
 </body>

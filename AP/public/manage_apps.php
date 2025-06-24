@@ -25,9 +25,16 @@ if (isset($_POST['new_app']) && trim($_POST['new_app'])) {
     $ins = $pdo->prepare("INSERT INTO apps (name, slug, enabled) VALUES (:n, :s, 0)");
     $ins->execute(['n' => $name, 's' => $slug]);
     // Optionally create placeholder file
-    $filePath = __DIR__ . "/app/{$slug}.php";
+    $appDir = __DIR__ . '/app';
+    if (!is_dir($appDir)) {
+        mkdir($appDir, 0777, true);
+    }
+    $filePath = $appDir . "/{$slug}.php";
     if (!file_exists($filePath)) {
-        file_put_contents($filePath, "<?php\n// Pagina per {$name}\necho '<h1>{$name}</h1>';\n");
+        file_put_contents(
+            $filePath,
+            "<?php\n// Pagina per {$name}\necho '<h1>{$name}</h1>';\n"
+        );
     }
     header('Location: manage_apps.php');
     exit;
