@@ -1,0 +1,393 @@
+/* ========== VARIABILI COLORI ========== */
+:root {
+  --neon-pink: #ff2d95;
+  --neon-purple: #9c27b0;
+  --neon-blue: #00d0ff;
+  --bg-dark: #0d0d0d;
+  --text-light: #eee;
+}
+
+/* ========== RESET & BODY ========== */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  height:100vh;
+  background: var(--bg-dark);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family: 'Segoe UI', sans-serif;
+  overflow:hidden;
+}
+
+/* ========== SFONDO ANIMATO ========== */
+body::before {
+  content:'';
+  position:absolute; top:-50%; left:-50%;
+  width:200%; height:200%;
+  background: radial-gradient(circle at center, rgba(255,45,149,.2), transparent 70%);
+  animation: rotateBg 20s linear infinite;
+  z-index:0;
+}
+@keyframes rotateBg {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ========== CONTENITORE CENTRALE ========== */
+.login-wrapper {
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width: 360px;
+  padding:1rem;
+}
+
+/* ========== LOGIN CARD ========== */
+.neon-card {
+  background: rgba(15,15,15,.85);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,.7);
+}
+.neon-card::before {
+  content:'';
+  position:absolute; top:-50%; left:-50%;
+  width:200%; height:200%;
+  background: conic-gradient(
+    from 0deg,
+    var(--neon-pink),
+    var(--neon-purple),
+    var(--neon-blue),
+    var(--neon-pink)
+  );
+  animation: rotateBorder 4s linear infinite;
+  z-index:-1;
+}
+@keyframes rotateBorder {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+:root {
+  /* Nuovo gradient per le card */
+  --gradient: conic-gradient(
+    from 0deg,
+    var(--neon-pink),
+    var(--neon-purple),
+    var(--neon-blue),
+    var(--neon-pink)
+  );
+}
+
+.dashboard-wrapper {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.logo-large {
+  width: 100px;
+  animation: pulse 2.5s ease-in-out infinite alternate;
+}
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.app-card {
+  position: relative;
+  background: rgba(15, 15, 15, 0.6);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.app-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: var(--gradient);
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
+}
+
+.app-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:
+    0 0 10px var(--neon-pink),
+    0 0 20px var(--neon-blue);
+}
+
+.app-card:hover::before {
+  opacity: 0.3;
+}
+
+.app-card.disabled {
+  opacity: 0.4;
+  filter: grayscale(100%);
+  cursor: not-allowed;
+}
+.apps-manage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btn-neon.small {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+}
+.dashboard-header .header-controls {
+  display: flex;
+  gap: 0.75rem;
+}
+.new-app-card {
+  background: rgba(15,15,15,0.6);
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.upload-section, .search-section {
+  margin-top: 2rem;
+}
+.upload-section h3,
+.search-section h3 {
+  margin-bottom: 1rem;
+}
+.upload-section .input-group,
+.search-section .input-group {
+  margin-bottom: 1rem;
+}
+.invoice-list {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 1rem;
+}
+.invoice-card {
+  background: rgba(15,15,15,0.6);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform .2s, box-shadow .2s;
+}
+.upload-section, .search-section {
+  margin-top: 2rem;
+}
+.upload-section h3,
+.search-section h3 {
+  margin-bottom: 1rem;
+}
+.upload-section .input-group,
+.search-section .input-group {
+  margin-bottom: 1rem;
+}
+.invoice-list {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 1rem;
+}
+.invoice-card {
+  background: rgba(15,15,15,0.6);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform .2s, box-shadow .2s;
+}
+.invoice-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-pink);
+}
+.invoice-card .label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.invoice-card .created {
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-light);
+}
+.invoice-card .btn-neon.small {
+  margin-top: 0.5rem;
+}
+
+.invoice-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-pink);
+}
+.invoice-card .label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.invoice-card .created {
+  font-size: 0.8rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-light);
+}
+.invoice-card .btn-neon.small {
+  margin-top: 0.5rem;
+}
+
+.new-app-form .input-group {
+  width: 100%;
+}
+
+.new-app-form .btn-neon {
+  width: 100%;
+  margin-top: 0.75rem;
+}
+.app-card .icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  animation: pulse 3s ease-in-out infinite alternate;
+}
+
+.app-card .label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-light);
+  text-shadow: 0 0 4px var(--neon-pink);
+}
+
+/* ========== LOGO & TITOLO ========== */
+.logo {
+  width: 160px;
+  margin: 0 auto 1rem;
+  animation: pulse 2s ease-in-out infinite alternate;
+}
+.neon-text {
+  color: var(--text-light);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-shadow:
+    0 0 4px var(--neon-pink),
+    0 0 8px var(--neon-purple),
+    0 0 12px var(--neon-blue);
+  animation: flicker 3s ease-in-out infinite;
+}
+
+/* ========== FORM ========== */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.input-group {
+  position: relative;
+  overflow: hidden;
+}
+.input-group input {
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--text-light);
+  color: var(--text-light);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color .3s;
+}
+.input-group label {
+  position: absolute;
+  top: 50%; left: 0.5rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-light);
+  transition: top .3s, font-size .3s;
+}
+.input-group input:focus,
+.input-group input:not(:placeholder-shown) {
+  border-color: var(--neon-pink);
+}
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -0.5rem;
+  font-size: 0.75rem;
+  color: var(--neon-pink);
+}
+
+/* ========== BOTTONE ========== */
+.btn-neon {
+  padding: 0.75rem;
+  background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+  border: none;
+  border-radius: 6px;
+  color: var(--text-light);
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow:
+    0 0 8px var(--neon-pink),
+    0 0 16px var(--neon-blue);
+  transition: transform .2s, box-shadow .2s;
+}
+.btn-neon:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 12px var(--neon-pink),
+    0 0 24px var(--neon-blue);
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+/* ========== TESTO ERRORE ========== */
+.error-text {
+  margin-top: 1rem;
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  animation: shake 0.5s ease-in-out;
+}
+
+/* ========== ANIMAZIONI ========== */
+@keyframes pulse {
+  to { transform: scale(1.1); }
+}
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.4; }
+}
+@keyframes glow {
+  from {
+    box-shadow:
+      0 0 20px var(--neon-pink),
+      0 0 40px var(--neon-blue);
+  }
+  to {
+    box-shadow:
+      0 0 8px var(--neon-pink),
+      0 0 16px var(--neon-blue);
+  }
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
